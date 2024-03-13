@@ -48,13 +48,11 @@ struct EditNoteView: View {
                     .foregroundStyle(.appDark)
                 
                 if showSaveMessage {
-                    MessageView(message: "SAVING...", color: Color.green, systemImage: "plus.rectangle.on.folder")
-                        .transition(.opacity)
-                        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: 0.5)
+                    MessageView(message: "Saving...", color: Color.green, systemImage: "plus.rectangle.on.folder")
+                        
                 } else if showErrorMessage {
                     MessageView(message: "Can't save with empty title...", color: Color.red, systemImage: "exclamationmark.octagon")
-                        .transition(.opacity)
-                        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: 0.5)
+                        
                 }
             }
             
@@ -77,7 +75,7 @@ struct EditNoteView: View {
                     Image(systemName: "checkmark.square")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(showErrorMessage ? .red : .green)
                 })
                 
                 Spacer()
