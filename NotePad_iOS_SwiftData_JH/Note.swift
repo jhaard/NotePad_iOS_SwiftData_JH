@@ -16,7 +16,6 @@ class Note {
     var title: String
     var bodyText: String
     
-    
     init(title: String, bodyText: String) {
         self.title = title
         self.bodyText = bodyText

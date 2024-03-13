@@ -18,7 +18,6 @@ struct MessageView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .frame(width: 300, height: 50)
-            //.foregroundColor(.green)
                 .foregroundStyle(color)
                 .opacity(0.5)
             
@@ -26,13 +25,11 @@ struct MessageView: View {
             HStack {
                 Image(systemName: systemImage)
                 Text(message)
-                    .foregroundColor(.appDark)
+                    .foregroundStyle(.appDark)
                     .multilineTextAlignment(.center)
             }
             
         }
-        .transition(.opacity)
-        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: 0.5)
     }
 }
 

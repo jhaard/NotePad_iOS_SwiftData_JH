@@ -10,8 +10,6 @@
 import Foundation
 import SwiftData
 
-// Source-guide: https://www.hackingwithswift.com/quick-start/swiftdata/how-to-use-mvvm-to-separate-swiftdata-from-your-views
-
 @Observable
 class NoteViewModel {
     

@@ -12,89 +12,78 @@ import SwiftData
 
 struct NoteSheetView: View {
     
-    @State private var isSheetVisible = false
     @State var noteViewModel: NoteViewModel
+    
+    @Binding var isSheetVisible: Bool
+    
+    @Binding var id: UUID
+    @Binding var title: String
+    @Binding var note: Note
+    @Binding var bodyText: String
     
     @State private var textToSearch = ""
     
-    @State var title: String = ""
-    @State var bodyText: String = ""
-    
     var body: some View {
         
-        Button(action:  {
-            isSheetVisible.toggle()
+        NavigationView {
             
-        }, label: {
-            Image(systemName: "folder")
-                .resizable()
-                .frame(width: 40, height: 40)
-                .foregroundColor(.appLight)
-        })
-        
-        .sheet(isPresented: $isSheetVisible) {
-            
-            NavigationView {
+            VStack {
+                Button(action:  {
+                    isSheetVisible = false
+                    
+                }, label: {
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(.appDark)
+                })
+ 
+                TextField("Search..", text: $textToSearch)
+                    .padding(12)
+                    .font(.title3)
+                    .background(.white)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(.appDark, lineWidth: 2)
+                    )
+                    .padding()
                 
-                VStack {
-                    
-                    Text("Notes".uppercased())
-                        .font(.title3)
-                        .underline(true, color: .appDark)
-                        .bold()
-                        .foregroundColor(.appDark)
-                        .padding()
-                    
-                    TextField("Search..", text: $textToSearch)
-                        .padding(12)
-                        .font(.title3)
-                        .background(.white)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.appDark, lineWidth: 2)
-                        )
-                        .padding(20)
-                    
-                    List{
-                        ForEach(noteViewModel.notes) { entity in
-                            VStack {
-                                NavigationLink {
-                                    
-                                    EditView(note: entity, noteViewModel: noteViewModel)
-                                    
-                                } label: {
-                                    
-                                    Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
-                                        .frame(maxWidth: .infinity)
-                                        .multilineTextAlignment(.center)
-                                        .bold()
-                                        .lineLimit(5)
-                                        .padding(20)
-                                        .background(.appDark)
-                                        .cornerRadius(10)
-                                        .foregroundColor(.appLight)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(.appLight, lineWidth: 2)
-                                        )
+                List{
+                    ForEach(noteViewModel.notes) { entity in
+                        VStack {
+                            
+                            Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
+                                .frame(maxWidth: .infinity)
+                                .multilineTextAlignment(.center)
+                                .bold()
+                                .lineLimit(5)
+                                .padding()
+                                .background(.appDark)
+                                .cornerRadius(10)
+                                .foregroundStyle(.appLight)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.appLight, lineWidth: 2)
+                                )
+                                .onTapGesture {
+                                    id = entity.id
+                                    title = entity.title
+                                    bodyText = entity.bodyText
+                                    note = entity
+                                    isSheetVisible = false
                                 }
-                            }
                         }
-                        .onDelete (
-                            perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
-                                
-                            }
-                        )
                     }
-                    .listStyle(.plain)
+                    .onDelete (
+                        perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
+                            
+                        }
+                    )
                 }
-            }
+                .listStyle(.plain)
+            }.padding()
         }
+        
     }
 }
-
-
-
-
-

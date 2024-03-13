@@ -10,16 +10,18 @@
 import SwiftUI
 import SwiftData
 
-struct NewNoteView: View {
+struct EditNoteView: View {
     
     @State private var noteViewModel: NoteViewModel
     
+    @State var id: UUID = UUID()
     @State var title: String = ""
     @State var bodyText: String = ""
-    
+    @State var note: Note = Note(title: "", bodyText: "")
     
     @State private var showSaveMessage = false
     @State private var showErrorMessage = false
+    @State private var isSheetVisible: Bool = false
     
     init(modelContext: ModelContext) {
         let noteViewModel = NoteViewModel(modelContext: modelContext)
@@ -27,24 +29,23 @@ struct NewNoteView: View {
     }
     
     var body: some View {
-        
         VStack {
-            Text("New note")
+            Text("Edit Note")
                 .font(.title)
-                .foregroundColor(.appLight)
+                .foregroundStyle(.appLight)
             
             TextField("Title", text: $title)
                 .padding(10)
                 .background(.white)
                 .cornerRadius(10)
-                .foregroundColor(.appDark)
+                .foregroundStyle(.appDark)
                 .multilineTextAlignment(.center)
                 .font(.title2)
             
             ZStack {
                 TextEditor(text: $bodyText)
                     .cornerRadius(10)
-                    .foregroundColor(.appDark)
+                    .foregroundStyle(.appDark)
                 
                 if showSaveMessage {
                     MessageView(message: "SAVING...", color: Color.green, systemImage: "plus.rectangle.on.folder")
@@ -60,7 +61,7 @@ struct NewNoteView: View {
             HStack {
                 Button(action:  {
                     if !title.isEmpty {
-                        addNote()
+                        saveNote()
                         showSaveMessage = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             showSaveMessage = false
@@ -73,34 +74,49 @@ struct NewNoteView: View {
                     }
                     
                 }, label: {
-                    Image(systemName: "plus.square")
+                    Image(systemName: "checkmark.square")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(.appLight)
+                        .foregroundStyle(.green)
                 })
                 
                 Spacer()
                 
-                NoteSheetView(noteViewModel: noteViewModel)
+                Button(action:  {
+                    isSheetVisible.toggle()
+                    
+                }, label: {
+                    Image(systemName: "folder")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundStyle(.appLight)
+                }) .sheet(isPresented: $isSheetVisible, content: {
+                    NoteSheetView(noteViewModel: noteViewModel, isSheetVisible: $isSheetVisible, id: $id, title: $title, note: $note, bodyText: $bodyText)
+                })
                 
             }
             .padding()
-            
         }
         .padding(20)
         .background(.appDark)
-        
     }
     
-    func addNote() {
+    func saveNote() {
         if title.isEmpty {
             return
         }
         
-        noteViewModel.addNote(title: title, bodyText: bodyText)
-        title = ""
-        bodyText = ""
+        if note.id == id {
+            noteViewModel.updateNote(entity: note, newTitle: title, newBodyText: bodyText)
+            title = ""
+            bodyText = ""
+            id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
+        }
+        
+        else {
+            noteViewModel.addNote(title: title, bodyText: bodyText)
+            title = ""
+            bodyText = ""
+        }
     }
-    
 }
-

@@ -8,27 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		65140C8F2B7F5F6300ADA1FA /* NotePad_iOS_SwiftData_JHApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65140C8E2B7F5F6300ADA1FA /* NotePad_iOS_SwiftData_JHApp.swift */; };
-		65140C912B7F5F6300ADA1FA /* NewNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65140C902B7F5F6300ADA1FA /* NewNoteView.swift */; };
+		65140C912B7F5F6300ADA1FA /* EditNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65140C902B7F5F6300ADA1FA /* EditNoteView.swift */; };
 		65140C952B7F5F6400ADA1FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65140C942B7F5F6400ADA1FA /* Assets.xcassets */; };
 		65140C982B7F5F6400ADA1FA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65140C972B7F5F6400ADA1FA /* Preview Assets.xcassets */; };
 		65140C9F2B7F603B00ADA1FA /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65140C9E2B7F603B00ADA1FA /* Note.swift */; };
 		65140CA12B7F620400ADA1FA /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65140CA02B7F620400ADA1FA /* NoteViewModel.swift */; };
 		65140CA32B7FA78F00ADA1FA /* NoteSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65140CA22B7FA78F00ADA1FA /* NoteSheetView.swift */; };
 		65771A042B7FF2E9007448C9 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65771A032B7FF2E9007448C9 /* MessageView.swift */; };
-		65D681192B83A770004AB6EB /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D681182B83A770004AB6EB /* EditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		65140C8B2B7F5F6300ADA1FA /* NotePad_iOS_SwiftData_JH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotePad_iOS_SwiftData_JH.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65140C8E2B7F5F6300ADA1FA /* NotePad_iOS_SwiftData_JHApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotePad_iOS_SwiftData_JHApp.swift; sourceTree = "<group>"; };
-		65140C902B7F5F6300ADA1FA /* NewNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteView.swift; sourceTree = "<group>"; };
+		65140C902B7F5F6300ADA1FA /* EditNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNoteView.swift; sourceTree = "<group>"; };
 		65140C942B7F5F6400ADA1FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65140C972B7F5F6400ADA1FA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		65140C9E2B7F603B00ADA1FA /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		65140CA02B7F620400ADA1FA /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
 		65140CA22B7FA78F00ADA1FA /* NoteSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSheetView.swift; sourceTree = "<group>"; };
 		65771A032B7FF2E9007448C9 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
-		65D681182B83A770004AB6EB /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +60,9 @@
 			isa = PBXGroup;
 			children = (
 				65140C8E2B7F5F6300ADA1FA /* NotePad_iOS_SwiftData_JHApp.swift */,
-				65140C902B7F5F6300ADA1FA /* NewNoteView.swift */,
+				65140C902B7F5F6300ADA1FA /* EditNoteView.swift */,
 				65140CA22B7FA78F00ADA1FA /* NoteSheetView.swift */,
 				65771A032B7FF2E9007448C9 /* MessageView.swift */,
-				65D681182B83A770004AB6EB /* EditView.swift */,
 				65140C9E2B7F603B00ADA1FA /* Note.swift */,
 				65140CA02B7F620400ADA1FA /* NoteViewModel.swift */,
 				65140C942B7F5F6400ADA1FA /* Assets.xcassets */,
@@ -152,11 +149,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65D681192B83A770004AB6EB /* EditView.swift in Sources */,
 				65771A042B7FF2E9007448C9 /* MessageView.swift in Sources */,
 				65140CA12B7F620400ADA1FA /* NoteViewModel.swift in Sources */,
 				65140CA32B7FA78F00ADA1FA /* NoteSheetView.swift in Sources */,
-				65140C912B7F5F6300ADA1FA /* NewNoteView.swift in Sources */,
+				65140C912B7F5F6300ADA1FA /* EditNoteView.swift in Sources */,
 				65140C8F2B7F5F6300ADA1FA /* NotePad_iOS_SwiftData_JHApp.swift in Sources */,
 				65140C9F2B7F603B00ADA1FA /* Note.swift in Sources */,
 			);

@@ -15,7 +15,7 @@ struct NotePad_iOS_SwiftData_JHApp: App {
 
         var body: some Scene {
             WindowGroup {
-                NewNoteView(modelContext: container.mainContext)
+                EditNoteView(modelContext: container.mainContext)
             }
             .modelContainer(container)
         }
