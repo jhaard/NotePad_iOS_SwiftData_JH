@@ -10,23 +10,21 @@ import SwiftData
 
 @main
 struct NotePad_iOS_SwiftData_JHApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    
+    let container: ModelContainer
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+        var body: some Scene {
+            WindowGroup {
+                NewNoteView(modelContext: container.mainContext)
+            }
+            .modelContainer(container)
         }
-    }()
 
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+        init() {
+            do {
+                container = try ModelContainer(for: Note.self)
+            } catch {
+                fatalError("Failed to create ModelContainer for Notes.")
+            }
         }
-        .modelContainer(sharedModelContainer)
-    }
 }

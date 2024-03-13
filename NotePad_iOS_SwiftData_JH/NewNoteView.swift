@@ -5,10 +5,12 @@
 //  Created by Jörgen Hård on 2024-02-16.
 //
 
+// View
+
 import SwiftUI
 import SwiftData
 
-struct EditView: View {
+struct NewNoteView: View {
     
     @State private var noteViewModel: NoteViewModel
     
@@ -16,17 +18,18 @@ struct EditView: View {
     @State var bodyText: String = ""
     
     
-    @State private var showPopUpMessage = false
+    @State private var showSaveMessage = false
+    @State private var showErrorMessage = false
     
     init(modelContext: ModelContext) {
         let noteViewModel = NoteViewModel(modelContext: modelContext)
         _noteViewModel = State(initialValue: noteViewModel)
     }
-
+    
     var body: some View {
         
         VStack {
-            Text("Edit note")
+            Text("New note")
                 .font(.title)
                 .foregroundColor(.appLight)
             
@@ -43,10 +46,14 @@ struct EditView: View {
                     .cornerRadius(10)
                     .foregroundColor(.appDark)
                 
-                if showPopUpMessage {
-                        MessageView(message: "SAVING...")
-                            .transition(.opacity)
-                            .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: 0.5)
+                if showSaveMessage {
+                    MessageView(message: "SAVING...", color: Color.green, systemImage: "plus.rectangle.on.folder")
+                        .transition(.opacity)
+                        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: 0.5)
+                } else if showErrorMessage {
+                    MessageView(message: "Can't save with empty title...", color: Color.red, systemImage: "exclamationmark.octagon")
+                        .transition(.opacity)
+                        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: 0.5)
                 }
             }
             
@@ -54,9 +61,14 @@ struct EditView: View {
                 Button(action:  {
                     if !title.isEmpty {
                         addNote()
-                        showPopUpMessage = true
+                        showSaveMessage = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            showPopUpMessage = false
+                            showSaveMessage = false
+                        }
+                    } else {
+                        showErrorMessage = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            showErrorMessage = false
                         }
                     }
                     
@@ -73,7 +85,7 @@ struct EditView: View {
                 
             }
             .padding()
-                
+            
         }
         .padding(20)
         .background(.appDark)
@@ -84,7 +96,7 @@ struct EditView: View {
         if title.isEmpty {
             return
         }
-
+        
         noteViewModel.addNote(title: title, bodyText: bodyText)
         title = ""
         bodyText = ""
