@@ -1,10 +1,3 @@
-//
-//  NoteSheetView.swift
-//  NotePad_iOS_SwiftData_JH
-//
-//  Created by Jörgen Hård on 2024-02-16.
-//
-
 // View
 
 import SwiftUI
@@ -23,9 +16,10 @@ struct NoteSheetView: View {
     @State private var textToSearch = ""
     @State private var showSearchResults = false
     @State private var showNoteList = true
+    @State private var showDelete = false
+    @State private var showAnimation = false
     
     var body: some View {
-        
         NavigationView {
             VStack {
                 Button(action:  {
@@ -63,71 +57,110 @@ struct NoteSheetView: View {
                     List{
                         ForEach(noteViewModel.searchThroughLibrary(search: textToSearch)) { entity in
                             VStack {
-                                Text("\(entity.title)\n\n\(entity.bodyText)")
-                                    .frame(maxWidth: .infinity)
-                                    .multilineTextAlignment(.center)
-                                    .bold()
-                                    .lineLimit(5)
-                                    .padding()
-                                    .background(.appDark)
-                                    .cornerRadius(10)
-                                    .foregroundStyle(.appLight)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(.green, lineWidth: 4)
-                                    )
-                                    .onTapGesture {
-                                        id = entity.id
-                                        title = entity.title
-                                        bodyText = entity.bodyText
-                                        note = entity
-                                        isSheetVisible = false
+                                ZStack {
+                                    Text("\(entity.title)\n\n\(entity.bodyText)")
+                                        .frame(maxWidth: .infinity)
+                                        .multilineTextAlignment(.center)
+                                        .bold()
+                                        .lineLimit(5)
+                                        .padding()
+                                        .background(.appDark)
+                                        .cornerRadius(10)
+                                        .foregroundStyle(.appLight)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(.green, lineWidth: 4)
+                                        )
+                                        .opacity(showAnimation ? 0.5 : 1)
+                                        .onTapGesture {
+                                            id = entity.id
+                                            title = entity.title
+                                            bodyText = entity.bodyText
+                                            note = entity
+                                            isSheetVisible = false
+                                        }
+                                        .onLongPressGesture {
+                                            showDelete = true
+                                            withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
+                                                showAnimation = true
+                                            }
+                                        }
+                                    
+                                    if showDelete {
+                                        Image(systemName: "xmark.rectangle")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundStyle(.red)
+                                            .onTapGesture {
+                                                showAnimation = false
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                    noteViewModel.deleteNote(entity: entity)
+                                                }
+                                            }
                                     }
+                                }
                             }
                         }
-                        .onDelete (
-                            perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
-                                print("Search: \(indexSet)")
-                                
-                            }
-                        )
                     }
                     .listStyle(.plain)
+                    .onTapGesture {
+                        showDelete = false
+                    }
                 }
                 
                 if showNoteList {
                     List{
                         ForEach(noteViewModel.notes) { entity in
                             VStack {
-                                Text("\(entity.title)\n\n\(entity.bodyText)")
-                                    .frame(maxWidth: .infinity)
-                                    .multilineTextAlignment(.center)
-                                    .bold()
-                                    .lineLimit(5)
-                                    .padding()
-                                    .background(.appDark)
-                                    .cornerRadius(10)
-                                    .foregroundStyle(.appLight)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(.appLight, lineWidth: 2)
-                                    )
-                                    .onTapGesture {
-                                        id = entity.id
-                                        title = entity.title
-                                        bodyText = entity.bodyText
-                                        note = entity
-                                        isSheetVisible = false
+                                ZStack {
+                                    Text("\(entity.title)\n\n\(entity.bodyText)")
+                                        .frame(maxWidth: .infinity)
+                                        .multilineTextAlignment(.center)
+                                        .bold()
+                                        .lineLimit(5)
+                                        .padding()
+                                        .background(.appDark)
+                                        .cornerRadius(10)
+                                        .foregroundStyle(.appLight)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(.appLight, lineWidth: 2)
+                                        )
+                                        .opacity(showAnimation ? 0.5 : 1)
+                                        .onTapGesture {
+                                            id = entity.id
+                                            title = entity.title
+                                            bodyText = entity.bodyText
+                                            note = entity
+                                            isSheetVisible = false
+                                        }
+                                        .onLongPressGesture {
+                                            showDelete = true
+                                            withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
+                                                showAnimation = true
+                                            }
+                                        }
+                                    if showDelete {
+                                        Image(systemName: "xmark.rectangle")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundStyle(.red)
+                                            .onTapGesture {
+                                                showAnimation = false
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                    noteViewModel.deleteNote(entity: entity)
+                                                }
+                                            }
                                     }
+                                }
                             }
                         }
-                        .onDelete (
-                            perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
-                                print("Note: \(indexSet)")
-                            }
-                        )
                     }
                     .listStyle(.plain)
+                    .onTapGesture {
+                        showDelete = false
+                        showAnimation = false
+                    }
                 }
             }.padding()
         }

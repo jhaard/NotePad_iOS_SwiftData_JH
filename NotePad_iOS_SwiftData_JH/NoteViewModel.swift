@@ -27,9 +27,7 @@ class NoteViewModel {
         fetchData()
     }
     
-    func deleteNote(indexSet: IndexSet) {
-        guard let index = indexSet.first else {return}
-        let entity = notes[index]
+    func deleteNote(entity: Note) {
         modelContext.delete(entity)
         fetchData()
     }
