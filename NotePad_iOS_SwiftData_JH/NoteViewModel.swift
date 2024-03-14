@@ -49,5 +49,15 @@ class NoteViewModel {
             print("Fetch failed")
         }
     }
+    
+    func searchThroughLibrary(search: String) -> [Note] {
+        var searchedNotes = [Note]()
+        for entity in notes {
+            if entity.title.contains(search) || entity.bodyText.contains(search) {
+                searchedNotes.append(entity)
+            }
+        }
+        return searchedNotes
+    }
 }
 

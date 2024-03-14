@@ -22,6 +22,8 @@ struct NoteSheetView: View {
     @Binding var bodyText: String
     
     @State private var textToSearch = ""
+    @State private var showSearchResults = false
+    @State private var showNoteList = true
     
     var body: some View {
         
@@ -37,7 +39,7 @@ struct NoteSheetView: View {
                         .frame(width: 20, height: 20)
                         .foregroundStyle(.appDark)
                 })
- 
+                
                 TextField("Search..", text: $textToSearch)
                     .padding(12)
                     .font(.title3)
@@ -48,42 +50,91 @@ struct NoteSheetView: View {
                             .stroke(.appDark, lineWidth: 2)
                     )
                     .padding()
-                
-                List{
-                    ForEach(noteViewModel.notes) { entity in
-                        VStack {
-                            
-                            Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
-                                .frame(maxWidth: .infinity)
-                                .multilineTextAlignment(.center)
-                                .bold()
-                                .lineLimit(5)
-                                .padding()
-                                .background(.appDark)
-                                .cornerRadius(10)
-                                .foregroundStyle(.appLight)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(.appLight, lineWidth: 2)
-                                )
-                                .onTapGesture {
-                                    id = entity.id
-                                    title = entity.title
-                                    bodyText = entity.bodyText
-                                    note = entity
-                                    isSheetVisible = false
-                                }
+                    .onChange(of: textToSearch, initial: false) { oldValue, newValue in
+                        showNoteList = false
+                        showSearchResults = true
+                        
+                        if newValue.isEmpty {
+                            showNoteList = true
+                            showSearchResults = false
                         }
                     }
-                    .onDelete (
-                        perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
-                            
+                
+                if showSearchResults {
+                    List{
+                        ForEach(noteViewModel.searchThroughLibrary(search: textToSearch)) { entity in
+                            VStack {
+                                Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
+                                    .frame(maxWidth: .infinity)
+                                    .multilineTextAlignment(.center)
+                                    .bold()
+                                    .lineLimit(5)
+                                    .padding()
+                                    .background(.appDark)
+                                    .cornerRadius(10)
+                                    .foregroundStyle(.appLight)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(.green, lineWidth: 4)
+                                    )
+                                    .onTapGesture {
+                                        id = entity.id
+                                        title = entity.title
+                                        bodyText = entity.bodyText
+                                        note = entity
+                                        isSheetVisible = false
+                                    }
+                            }
                         }
-                    )
+                        .onDelete (
+                            perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
+                                print("Search: \(indexSet)")
+                                
+                            }
+                        )
+                    }
+                    .listStyle(.plain)
+                        
                 }
-                .listStyle(.plain)
+                
+                if showNoteList {
+                    List{
+                        ForEach(noteViewModel.notes) { entity in
+                            VStack {
+                                Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
+                                    .frame(maxWidth: .infinity)
+                                    .multilineTextAlignment(.center)
+                                    .bold()
+                                    .lineLimit(5)
+                                    .padding()
+                                    .background(.appDark)
+                                    .cornerRadius(10)
+                                    .foregroundStyle(.appLight)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(.appLight, lineWidth: 2)
+                                    )
+                                    .onTapGesture {
+                                        id = entity.id
+                                        title = entity.title
+                                        bodyText = entity.bodyText
+                                        note = entity
+                                        isSheetVisible = false
+                                    }
+                            }
+                        }
+                        .onDelete (
+                            perform: { indexSet in noteViewModel.deleteNote(indexSet: indexSet)
+                                print("Note: \(indexSet)")
+                            }
+                        )
+                    }
+                    .listStyle(.plain)
+                    
+                }
             }.padding()
         }
         
     }
+
 }
