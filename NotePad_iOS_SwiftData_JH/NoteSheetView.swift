@@ -93,9 +93,7 @@ struct NoteSheetView: View {
                                             .foregroundStyle(.red)
                                             .onTapGesture {
                                                 showAnimation = false
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                    noteViewModel.deleteNote(entity: entity)
-                                                }
+                                                noteViewModel.deleteNote(entity: entity)
                                             }
                                     }
                                 }
@@ -105,6 +103,7 @@ struct NoteSheetView: View {
                     .listStyle(.plain)
                     .onTapGesture {
                         showDelete = false
+                        showAnimation = false
                     }
                 }
                 
@@ -147,9 +146,7 @@ struct NoteSheetView: View {
                                             .foregroundStyle(.red)
                                             .onTapGesture {
                                                 showAnimation = false
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                    noteViewModel.deleteNote(entity: entity)
-                                                }
+                                                noteViewModel.deleteNote(entity: entity)
                                             }
                                     }
                                 }
