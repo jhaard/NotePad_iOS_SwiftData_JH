@@ -48,7 +48,7 @@ struct EditNoteView: View {
                     .foregroundStyle(.appDark)
                 
                 if showSaveMessage {
-                    MessageView(message: "Saving...", color: Color.green, systemImage: "plus.rectangle.on.folder")
+                    MessageView(message: "Updating...", color: Color.green, systemImage: "plus.rectangle.on.folder")
                         
                 } else if showErrorMessage {
                     MessageView(message: "Can't save with empty title...", color: Color.red, systemImage: "exclamationmark.octagon")

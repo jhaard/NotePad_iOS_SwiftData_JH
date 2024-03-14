@@ -92,6 +92,9 @@ struct NoteSheetView: View {
                                             .frame(width: 40, height: 40)
                                             .foregroundStyle(.red)
                                             .onTapGesture {
+                                                title = ""
+                                                bodyText = ""
+                                                id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
                                                 showAnimation = false
                                                 noteViewModel.deleteNote(entity: entity)
                                             }
@@ -145,6 +148,9 @@ struct NoteSheetView: View {
                                             .frame(width: 40, height: 40)
                                             .foregroundStyle(.red)
                                             .onTapGesture {
+                                                title = ""
+                                                bodyText = ""
+                                                id = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
                                                 showAnimation = false
                                                 noteViewModel.deleteNote(entity: entity)
                                             }

@@ -22,6 +22,8 @@ class NoteViewModel {
     
     func deleteNote(entity: Note) {
         modelContext.delete(entity)
+        entity.title = ""
+        entity.bodyText = ""
         fetchData()
     }
     
