@@ -11,7 +11,6 @@ import SwiftUI
 import SwiftData
 
 struct NoteSheetView: View {
-    
     @State var noteViewModel: NoteViewModel
     
     @Binding var isSheetVisible: Bool
@@ -28,7 +27,6 @@ struct NoteSheetView: View {
     var body: some View {
         
         NavigationView {
-            
             VStack {
                 Button(action:  {
                     isSheetVisible = false
@@ -41,6 +39,7 @@ struct NoteSheetView: View {
                 })
                 
                 TextField("Search..", text: $textToSearch)
+                    .autocapitalization(.none)
                     .padding(12)
                     .font(.title3)
                     .background(.white)
@@ -64,7 +63,7 @@ struct NoteSheetView: View {
                     List{
                         ForEach(noteViewModel.searchThroughLibrary(search: textToSearch)) { entity in
                             VStack {
-                                Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
+                                Text("\(entity.title)\n\n\(entity.bodyText)")
                                     .frame(maxWidth: .infinity)
                                     .multilineTextAlignment(.center)
                                     .bold()
@@ -94,14 +93,13 @@ struct NoteSheetView: View {
                         )
                     }
                     .listStyle(.plain)
-                        
                 }
                 
                 if showNoteList {
                     List{
                         ForEach(noteViewModel.notes) { entity in
                             VStack {
-                                Text("\(entity.title.uppercased())\n\n\(entity.bodyText)")
+                                Text("\(entity.title)\n\n\(entity.bodyText)")
                                     .frame(maxWidth: .infinity)
                                     .multilineTextAlignment(.center)
                                     .bold()
@@ -130,11 +128,8 @@ struct NoteSheetView: View {
                         )
                     }
                     .listStyle(.plain)
-                    
                 }
             }.padding()
         }
-        
     }
-
 }
