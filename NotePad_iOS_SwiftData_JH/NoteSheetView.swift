@@ -21,7 +21,10 @@ struct NoteSheetView: View {
     
     var body: some View {
         NavigationView {
+            
+            // Overall VStack
             VStack {
+                // Button to close sheet with saved notes
                 Button(action:  {
                     isSheetVisible = false
                     
@@ -32,6 +35,7 @@ struct NoteSheetView: View {
                         .foregroundStyle(.appDark)
                 })
                 
+                // Search-field
                 TextField("Search..", text: $textToSearch)
                     .autocapitalization(.none)
                     .padding(12)
@@ -53,6 +57,7 @@ struct NoteSheetView: View {
                         }
                     }
                 
+                // Only Showing a new list when searching. Simple search, Case-sensitive.
                 if showSearchResults {
                     List{
                         ForEach(noteViewModel.searchThroughLibrary(search: textToSearch)) { entity in
@@ -86,6 +91,7 @@ struct NoteSheetView: View {
                                             }
                                         }
                                     
+                                    // If one of the entities are pressed with long-press, show delete-buttons.
                                     if showDelete {
                                         Image(systemName: "xmark.rectangle")
                                             .resizable()
@@ -103,6 +109,7 @@ struct NoteSheetView: View {
                             }
                         }
                     }
+                    // If tap on side of the list, hide delete-buttons.
                     .listStyle(.plain)
                     .onTapGesture {
                         showDelete = false
@@ -110,6 +117,7 @@ struct NoteSheetView: View {
                     }
                 }
                 
+                // Showing saved list of notes i normal state.
                 if showNoteList {
                     List{
                         ForEach(noteViewModel.notes) { entity in
@@ -142,6 +150,8 @@ struct NoteSheetView: View {
                                                 showAnimation = true
                                             }
                                         }
+                                    
+                                    // Showing same delete-buttons with long-press.
                                     if showDelete {
                                         Image(systemName: "xmark.rectangle")
                                             .resizable()
@@ -159,6 +169,7 @@ struct NoteSheetView: View {
                             }
                         }
                     }
+                    // If tap on side of the list, hide delete-buttons.
                     .listStyle(.plain)
                     .onTapGesture {
                         showDelete = false

@@ -2,6 +2,8 @@
 
 import SwiftUI
 
+// Pop-up message for confimation.
+
 struct MessageView: View {
     var message: String
     var color: Color
@@ -21,7 +23,6 @@ struct MessageView: View {
                     .foregroundStyle(.appDark)
                     .multilineTextAlignment(.center)
             }
-            
         }
     }
 }

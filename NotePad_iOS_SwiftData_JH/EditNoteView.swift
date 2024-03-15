@@ -29,11 +29,15 @@ struct EditNoteView: View {
     }
     
     var body: some View {
+        // Overall VStack.
         VStack {
+            
+            // Headline.
             Text("Edit Note")
                 .font(.title)
                 .foregroundStyle(.appLight)
             
+            // Title-field.
             TextField("Title", text: $title)
                 .padding(10)
                 .background(.white)
@@ -42,6 +46,7 @@ struct EditNoteView: View {
                 .multilineTextAlignment(.center)
                 .font(.title2)
             
+            // ZStack so pop-up-message will overlay texteditor when displaying it on the screen.
             ZStack {
                 TextEditor(text: $bodyText)
                     .cornerRadius(10)
@@ -49,14 +54,16 @@ struct EditNoteView: View {
                 
                 if showSaveMessage {
                     MessageView(message: "Updating...", color: Color.green, systemImage: "plus.rectangle.on.folder")
-                        
+                    
                 } else if showErrorMessage {
                     MessageView(message: "Can't save with empty title...", color: Color.red, systemImage: "exclamationmark.octagon")
-                        
+                    
                 }
             }
             
+            // HStack for bottom-buttons.
             HStack {
+                // Save/update-button.
                 Button(action:  {
                     if !title.isEmpty {
                         saveNote()
@@ -80,6 +87,7 @@ struct EditNoteView: View {
                 
                 Spacer()
                 
+                // Button opens sheet with saved notes.
                 Button(action:  {
                     isSheetVisible.toggle()
                     
@@ -99,6 +107,7 @@ struct EditNoteView: View {
         .background(.appDark)
     }
     
+    // Save note from viewmodel when id is new, else update note and clean.
     func saveNote() {
         if title.isEmpty {
             return
